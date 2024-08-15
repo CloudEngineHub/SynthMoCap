@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Look Ma, no markers</title>
+    <link rel="shortcut icon" type="image/jpg" href="img/favicon.ico" />
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"> -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <script src="https://kit.fontawesome.com/49f46e7382.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+        <div class="container is-max-desktop">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="https://www.microsoft.com/en-us/research/lab/mixed-reality-ai-lab-cambridge/">
+                    <img src="img/Microsoft-logo.svg" alt="Mixed Reality & AI Lab – Cambridge" style="height: 1.4rem;">
+                </a>
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="https://www.microsoft.com/en-us/research/lab/mixed-reality-ai-lab-cambridge/">
+                        Mixed Reality & AI
+                    </a>
+                </div>
+                <div class="navbar-end">
+                    <a class="navbar-item" href="https://asia.siggraph.org/2024/">
+                        <img class="is-hidden-touch" src="img/sa-logo-white.png" alt="SIGGRAPH Asia 2024">
+                        <img class="is-hidden-desktop" src="img/sa-logo-black.png" alt="SIGGRAPH Asia 2024">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="section">
+        <div class="container is-max-desktop">
+            <h1 class="title is-2 has-text-centered">Look Ma, no markers</h1>
+            <p class="subtitle is-4 has-text-centered">Holistic performance capture without the hassle</p>
+            <p class="subtitle is-5 has-text-centered has-text-grey mb-0">ACM Transaction on Graphics</p>
+            <p class="subtitle is-6 has-text-centered has-text-grey">SIGGRAPH Asia 2024</p>
+            <p class="subtitle is-6 has-text-centered authors" style="line-height: 1.5;">
+                <span><a href="https://chewitt.me/">Charlie&nbsp;Hewitt</a></span>
+                <span><a href="mailto:TODO@microsoft.com">Fatemeh&nbsp;Saleh</a></span>
+                <span><a href="mailto:TODO@microsoft.com">Sadegh&nbsp;Aliakbarian</a></span>
+                <span><a href="mailto:TODO@microsoft.com">Lohit&nbsp;Petikam</a></span>
+                <span><a href="mailto:TODO@microsoft.com">Zafiirah&nbsp;Hosenie</a></span>
+                <span><a href="mailto:TODO@microsoft.com">Thomas&nbsp;J&nbsp;Cashman</a></span>
+                <span><a href="mailto:TODO@microsoft.com">Louis&nbsp;Florentin</a></span>
+                <span><a href="mailto:TODO@microsoft.com">Shideh&nbsp;Rezaeifar</a></span>
+                <span><a href="mailto:TODO@microsoft.com">Julien&nbsp;Valentin</a></span>
+                <span><a href="mailto:TODO@microsoft.com">Darren&nbsp;Cosker</a></span>
+                <span><a href="mailto:tabaltru@microsoft.com">Tadas&nbsp;Baltru&scaron;aitis</a></span>
+            </p>
+        </div>
+        <div class="container is-max-desktop has-text-centered mt-5">
+            <a href="TODO" class="button is-rounded is-link is-light mr-2">
+                <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                <span>Paper</span>
+            </a>
+            <a href="TODO" class="button is-rounded is-link is-light mr-2">
+                <span class="icon"><i class="ai ai-arxiv"></i></span>
+                <span>arXiv</span>
+            </a>
+            <a href="TODO" class="button is-rounded is-link is-light mr-2">
+                <span class="icon"><i class="fab fa-youtube" aria-hidden="true"></i></span>
+                <span>Video</span>
+            </a>
+            <a href="https://github.com/microsoft/SynthHuman" class="button is-rounded is-link is-light">
+                <span class="icon"><i class="fab fa-github"></i></span>
+                <span>Datasets</span>
+            </a>
+        </div>
+    </section>
+    <section>
+        <div class="container is-max-desktop">
+            <figure class="image is-16by9">
+                <iframe class="has-ratio" width="640" height="360" src="TODO" frameborder="0" allowfullscreen></iframe>
+            </figure>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container is-max-desktop">
+            <h1 class="title is-4">
+                Abstract
+            </h1>
+            <div class="content has-text-justified-desktop">
+                We tackle the problem of highly-accurate, holistic performance capture for the face, body and hands simultaneously.
+                Motion-capture technologies used in film and game production typically focus only on face, body or hand capture independently, involve complex and expensive hardware and a high degree of manual intervention from skilled operators.
+                While machine-learning-based approaches exist to overcome these problems, they usually only support a single camera, often operate on a single part of the body, do not produce precise world-space results, and rarely generalize outside specific contexts.
+                In this work, we introduce the first technique for marker-free, high-quality reconstruction of the complete human body, including eyes and tongue, without requiring any calibration, manual intervention or custom hardware.
+                Our approach produces stable world-space results from arbitrary camera rigs as well as supporting varied capture environments and clothing.
+                We achieve this through a hybrid approach that leverages machine learning models trained exclusively on synthetic data and powerful parametric models of human shape and motion.
+                We evaluate our method on a number of body, face and hand reconstruction benchmarks and demonstrate state-of-the-art results that generalize on diverse datasets.
+                We also release the synthetic datasets of the body, face and hands which we use to train our models.
+            </div>
+        </div>
+    </section>
+    <section class="section pt-0">
+        <div class="container is-max-desktop">
+            <h1 class="title is-4">
+                Datasets
+            </h1>
+            <div class="content has-text-justified-desktop">
+                TODO
+            </div>
+        </div>
+    </section>
+    <section class="section pt-0">
+        <div class="container is-max-desktop">
+            <h1 class="title is-4">
+                Method
+            </h1>
+            <div class="content has-text-justified-desktop">
+                TODO
+            </div>
+        </div>
+    </section>
+    <section class="section pt-0">
+        <div class="container is-max-desktop">
+            <h1 class="title is-4">
+                Results
+            </h1>
+            <div class="content has-text-justified-desktop">
+                TODO
+            </div>
+        </div>
+    </section>
+    <section class="section pt-0">
+        <div class="container is-max-desktop">
+            <h1 class="title is-4">
+                BibTeX
+            </h1>
+            <pre>
+@inproceedings{hewitt2024look,
+    title={Look Ma, no markers: holistic performance capture without the hassle},
+    author={Hewitt, Charlie and Saleh, Fatemeh and Aliakbarian, Sadegh and Petikam, Lohit and Hosenie, Zafiirah and Cashman, Thomas J and Florentin, Louis and Rezaeifar, Shideh and Valentin, Julien and Cosker, Darren and Baltru\v{s}aitis, Tadas},
+    booktitle={ACM Transactions on Graphics},
+    year={2024}
+}</pre>
+        </div>
+    </section>
+    <footer class="footer pb-0">
+        <div class="content has-text-centered pb-5">
+            <p>
+                Work conducted at the <a href=https://www.microsoft.com/en-us/research/lab/mixed-reality-ai-lab-cambridge>Mixed Reality & AI Lab &ndash; Cambridge</a>.<br>
+                <img src="img/Microsoft-logo-only.svg" class="mt-5" alt="Microsoft" style="height: 2rem;">
+            </p>
+        </div>
+        <div class="footer-links content has-text-centered pt-5 has-text-grey-lighter is-size-7">
+            <a href="https://go.microsoft.com/fwlink/?LinkId=521839">Privacy</a>
+            <a href="https://go.microsoft.com/fwlink/?LinkID=206977">Terms of Use</a>
+            <a href="https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks">Trademarks</a>
+            <a href="https://microsoft.com">&copy; Microsoft 2024</a>
+        </div>
+    </footer>
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // Get all "navbar-burger" elements
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+        // Check if there are any navbar burgers
+        if ($navbarBurgers.length > 0) {
+
+            // Add a click event on each of them
+            $navbarBurgers.forEach(el => {
+                el.addEventListener('click', () => {
+
+                    // Get the target from the "data-target" attribute
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+
+                    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                    el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+
+                });
+            });
+        }
+    });
+</script>
+
+</html>
