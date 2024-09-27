@@ -28,6 +28,7 @@ If you use the taxonomy or datasets in your research, please cite the following 
   number={6},
   year={2024},
   publisher={ACM New York, NY, USA},
-  pages={235:1--235:12},
+  articleno={235},
+  numpages={12},
 }
 ```
