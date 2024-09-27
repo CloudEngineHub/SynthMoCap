@@ -20,10 +20,14 @@ TODO summary and download instructions for SynthHand dataset
 If you use the taxonomy or datasets in your research, please cite the following [paper](TODO):
 
 ```bibtex
-@inproceedings{hewitt2024look,
+@article{hewitt2024look,
   title={Look Ma, no markers: holistic performance capture without the hassle},
-  author={Hewitt, Charlie and Saleh, Fatemeh and Aliakbarian, Sadegh and Petikam, Lohit and Hosenie, Zafiirah and Cashman, Thomas J and Florentin, Louis and Rezaeifar, Shideh and Valentin, Julien and Cosker, Darren and Baltru\v{s}aitis, Tadas},
-  booktitle={ACM Transactions on Graphics},
-  year={2024}
+  author={Hewitt, Charlie and Saleh, Fatemeh and Aliakbarian, Sadegh and Petikam, Lohit and Rezaeifar, Shideh and Florentin, Louis and Hosenie, Zafiirah and Cashman, Thomas J and Valentin, Julien and Cosker, Darren and Baltru\v{s}aitis, Tadas},
+  journal={ACM Transactions on Graphics (TOG)},
+  volume={36},
+  number={6},
+  year={2024},
+  publisher={ACM New York, NY, USA},
+  pages={235:1--235:12},
 }
 ```
