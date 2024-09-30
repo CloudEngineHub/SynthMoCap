@@ -6,21 +6,46 @@ The repo includes download instructions for the synthetic datasets used in the p
 ## SynthBody Dataset
 
 ![body_data](docs/img/body-data.jpg)
-TODO summary and download instructions for SynthBody dataset
+
+The SynthBody dataset includes the following:
+- RGB body images
+-	2D and 3D skeletal landmarks
+-	Segmentation masks
+-	SMPL-H pose parameters
+-	SMPL-H shape parameters
+-	Camera parameters
 
 ## SynthFace Dataset
 
 ![face_data](docs/img/face-data.jpg)
-TODO summary and download instructions for SynthFace dataset
+
+The SynthFace dataset includes the following:
+- RGB face images
+-	2D landmarks
+-	Segmentation masks
+-	Camera parameters
+-	Head pose
+-	Eye gaze
 
 ## SynthHand Dataset
 
 ![hand_data](docs/img/hand-data.jpg)
-TODO summary and download instructions for SynthHand dataset
+
+The SynthHand dataset includes the following:
+- RGB hand images (left hand only)
+-	2D and 3D skeletal landmarks
+-	Segmentation masks
+-	SMPL-H pose parameters
+-	SMPL-H + MANO shape parameters
+-	Camera parameters
+
+## Download Instructions
+
+TODO
 
 ## Citation
 
-If you use the taxonomy or datasets in your research, please cite the following [paper](TODO):
+If you use any of the datasets in your research, please cite the following [paper](https://aka.ms/SynthMoCap):
 
 ```bibtex
 @article{hewitt2024look,
