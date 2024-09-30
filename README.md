@@ -5,14 +5,17 @@ The repo includes download instructions for the synthetic datasets used in the p
 
 ## SynthBody Dataset
 
+![body_data](docs/img/body-data.jpg)
 TODO summary and download instructions for SynthBody dataset
 
 ## SynthFace Dataset
 
+![face_data](docs/img/face-data.jpg)
 TODO summary and download instructions for SynthFace dataset
 
 ## SynthHand Dataset
 
+![hand_data](docs/img/hand-data.jpg)
 TODO summary and download instructions for SynthHand dataset
 
 ## Citation
