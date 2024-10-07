@@ -21,3 +21,7 @@
     color: inherit !important;
     padding: 0 1em;
 }
+
+.column {
+    text-align: left;
+}
