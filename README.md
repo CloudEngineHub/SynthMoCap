@@ -1,47 +1,46 @@
 # SynthMoCap Datasets
 
 This repo accompanies the paper [Look Ma, no markers: holistic performance capture without the hassle](https://aka.ms/SynthMoCap) which appeared in ACM Transaction on Graphics and was presented at SIGGRAPH Asia 2024.
-The repo includes download instructions for the synthetic datasets used in the paper.
+The repo includes download instructions for the synthetic datasets used in the paper. For detailed information about the dataset contents and download instructions see [DATASETS.md](DATASETS.md).
 
 ## SynthBody Dataset
 
 ![body_data](docs/img/body-data.jpg)
 
 The SynthBody dataset includes the following:
+
 - RGB body images
--	2D and 3D skeletal landmarks
--	Segmentation masks
--	SMPL-H pose parameters
--	SMPL-H shape parameters
--	Camera parameters
+- 2D and 3D skeletal landmarks
+- Segmentation masks
+- SMPL-H pose parameters
+- SMPL-H shape parameters
+- Camera parameters
 
 ## SynthFace Dataset
 
 ![face_data](docs/img/face-data.jpg)
 
 The SynthFace dataset includes the following:
+
 - RGB face images
--	2D landmarks
--	Segmentation masks
--	Camera parameters
--	Head pose
--	Eye gaze
+- 2D landmarks
+- Segmentation masks
+- Camera parameters
+- Head pose
+- Eye gaze
 
 ## SynthHand Dataset
 
 ![hand_data](docs/img/hand-data.jpg)
 
 The SynthHand dataset includes the following:
+
 - RGB hand images (left hand only)
--	2D and 3D skeletal landmarks
--	Segmentation masks
--	SMPL-H pose parameters
--	SMPL-H + MANO shape parameters
--	Camera parameters
-
-## Download Instructions
-
-TODO
+- 2D and 3D skeletal landmarks
+- Segmentation masks
+- SMPL-H pose parameters
+- SMPL-H + MANO shape parameters
+- Camera parameters
 
 ## Citation
 
