@@ -23,7 +23,7 @@ The SynthBody dataset includes the following:
 The SynthFace dataset includes the following:
 
 - RGB face images
-- 2D landmarks
+- Sparse 2D landmarks
 - Segmentation masks
 - Camera parameters
 - Head pose

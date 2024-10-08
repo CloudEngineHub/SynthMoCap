@@ -30,6 +30,7 @@ from zipfile import ZipFile
 import tarfile
 
 import numpy as np
+from tqdm import tqdm
 
 MANO_N_J = 15
 SMPL_H_N_J = 22
@@ -40,12 +41,10 @@ MANO_FILENAME = "manoposesv10"
 MOSH_FILENAME = "MoSh"
 POSELIM_FILENAME = "PosePrior"
 
-N_PARTS = 15
+N_PARTS = 10
 
 
-def _download_mpii_file(
-    username: str, password: str, domain: str, file: str, out_path: Path
-) -> None:
+def _download_mpii_file(username: str, password: str, domain: str, file: str, out_path: Path) -> None:
     out_path.parent.mkdir(exist_ok=True, parents=True)
     url = f"https://download.is.tue.mpg.de/download.php?domain={domain}&resume=1&sfile={file}"
     try:
@@ -147,32 +146,21 @@ def download_synthmocap_data(dataset: str, out_dir: Path) -> None:
             sys.exit(1)
 
 
-def process_metadata(data_dir: Path) -> None:
+def process_metadata(data_dir: Path, dataset_name: str) -> None:
     """Process the metadata to include the correct pose data."""
     # load MANO dataset
-    mano_left = np.load(
-        data_dir
-        / f"{MANO_FILENAME}/mano_poses_v1_0/handsOnly_REGISTRATIONS_r_lm___POSES___L.npy"
-    )
-    mano_right = np.load(
-        data_dir
-        / f"{MANO_FILENAME}/mano_poses_v1_0/handsOnly_REGISTRATIONS_r_lm___POSES___R.npy"
-    )
+    mano_left = np.load(data_dir / f"{MANO_FILENAME}/mano_poses_v1_0/handsOnly_REGISTRATIONS_r_lm___POSES___L.npy")
+    mano_right = np.load(data_dir / f"{MANO_FILENAME}/mano_poses_v1_0/handsOnly_REGISTRATIONS_r_lm___POSES___R.npy")
     # fill in the data
-    for metadata_fn in (data_dir).glob("*.json"):
+    for metadata_fn in tqdm(list((data_dir / dataset_name).glob("*.json")), desc="Processing metadata"):
         with open(metadata_fn, "r") as f:
             metadata = json.load(f)
             if isinstance(metadata["pose"][1], str):
                 # body pose comes from AMASS
                 seq_name: str = metadata["pose"][1]
                 frame = int(seq_name.split("_")[-2])
-                mirrored = seq_name.split("_")[-1] == 1
-                assert not mirrored  # FIXME: deal with this
-                seq_path = (
-                    Path("/".join(seq_name.split("/")[1:]))
-                    .with_suffix(".npz")
-                    .as_posix()
-                )
+                assert int(seq_name.split("_")[-1]) == 0
+                seq_path = Path("/".join(seq_name.split("/")[1:])).with_suffix(".npz").as_posix()
                 if seq_name.startswith("MoSh_MPI_MoSh"):
                     # fix paths to match downloaded data
                     seq_path = seq_path.replace("Data/moshpp_fits_SMPL", "MPI_mosh")
@@ -192,21 +180,15 @@ def process_metadata(data_dir: Path) -> None:
                 frame_step = int(np.floor(seq_data["mocap_framerate"] / 30))
                 seq = seq_data["poses"][::frame_step]
                 # exclude root joint
-                metadata["pose"][1:SMPL_H_N_J] = (
-                    seq[frame].reshape((-1, 3))[1:SMPL_H_N_J].tolist()
-                )
+                metadata["pose"][1:SMPL_H_N_J] = seq[frame].reshape((-1, 3))[1:SMPL_H_N_J].tolist()
             if isinstance(metadata["pose"][LEFT_HAND], str):
                 # left hand comes from MANO
                 idx = int(metadata["pose"][LEFT_HAND].split("_")[1])
-                metadata["pose"][LEFT_HAND:RIGHT_HAND] = (
-                    mano_left[idx].reshape((MANO_N_J, 3)).tolist()
-                )
+                metadata["pose"][LEFT_HAND:RIGHT_HAND] = mano_left[idx].reshape((MANO_N_J, 3)).tolist()
             if isinstance(metadata["pose"][RIGHT_HAND], str):
                 # right hand comes from MANO
                 idx = int(metadata["pose"][RIGHT_HAND].split("_")[1])
-                metadata["pose"][RIGHT_HAND:] = (
-                    mano_right[idx].reshape((MANO_N_J, 3)).tolist()
-                )
+                metadata["pose"][RIGHT_HAND:] = mano_right[idx].reshape((MANO_N_J, 3)).tolist()
         with open(metadata_fn, "w") as f:
             json.dump(metadata, f, indent=4)
 
@@ -214,9 +196,7 @@ def process_metadata(data_dir: Path) -> None:
 def main() -> None:
     """Download and process the dataset."""
     parser = argparse.ArgumentParser(description="Download SynthMoCap datasets")
-    parser.add_argument(
-        "--output_dir", type=Path, help="Output directory", required=True
-    )
+    parser.add_argument("--output_dir", type=Path, help="Output directory", required=True)
     parser.add_argument(
         "--dataset",
         type=str,
@@ -228,8 +208,8 @@ def main() -> None:
     dataset_name = f"synth_{args.dataset}"
     data_dir = Path(args.output_dir)
     # download data from MPII sources
-    get_amass(data_dir)
-    get_mano(data_dir)
+    # get_amass(data_dir)
+    # get_mano(data_dir)
     # extract the data
     for path in list(data_dir.glob("*.zip")) + list(data_dir.glob("*.bz2")):
         extract(path)
@@ -244,7 +224,7 @@ def main() -> None:
     zip_dir.rmdir()
     if args.dataset in ["body", "hand"]:
         # process the metadata
-        process_metadata(data_dir / dataset_name)
+        process_metadata(data_dir, dataset_name)
 
 
 if __name__ == "__main__":

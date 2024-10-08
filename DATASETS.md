@@ -4,11 +4,14 @@ In all datasets samples are indexed by identity and frame - there are approximat
 with 5 frames each. Indices are formatted with leading zeros, for example `img_0000123_004.jpg` for identity 123, frame 4.
 Note that some pose data is sourced from the [AMASS](https://amass.is.tue.mpg.de/) and [MANO](https://mano.is.tue.mpg.de/)
 datasets and is not directly redistributed by us. This data will be downloaded and spliced into the full dataset as part
-of the `download_data.py` script.
+of the `download_data.py` script. You can use `python visualize_data.py [path_to_dataset]` to visualize the data
+including some ground-truth annotations.
+
+First setup your environment by running `pip install -r requirements.txt`.
 
 ## SynthBody
 
-![body_data](docs/img/body-data.jpg)
+![body_data](img/body_data.jpg)
 
 ### Download Instructions
 
@@ -20,7 +23,7 @@ python download_data.py --dataset body --output_dir YOUR_DATA_DIRECTORY/
 
 ### Contents
 
-Image Data:
+#### Image Data
 
 | Data Type | File Name |
 |-|-|
@@ -34,7 +37,7 @@ Image Data:
 | Grayscale headwear segmentation| `segm_headwear_XXXXXXX_XXX.png`|
 | Integer body parts segmentation| `segm_parts_XXXXXXX_XXX.png`|
 
-Segmentation parts indices:
+#### Segmentation parts indices
 
 |Class|Index|
 |-|-|
@@ -57,7 +60,7 @@ Segmentation parts indices:
 |RIGHT_LOWER_ARM|16|
 |RIGHT_HAND|17|
 
-Metadata:
+#### Metadata
 
 ```json
 {
@@ -71,8 +74,7 @@ Metadata:
     },
     "pose": [ " 52x3 array of SMPL-H pose parameters" ],
     "translation": [ "3 element array for SMPL-H translation" ],
-    "body_identity": [ "300 element array of neutral SMPL-H parameters" ],
-    "hand_identity": [ "10 element array of MANO shape parameters" ],
+    "body_identity": [ "16 element array of neutral SMPL-H shape parameters" ],
     "landmarks": {
         "3D_world": [ "52x3 array of 3D landmarks in world-space corresponding to SMPL-H joints" ],
         "3D_cam": [ "52x3 array of 3D landmarks in camera-space corresponding to SMPL-H joints" ],
@@ -81,13 +83,13 @@ Metadata:
 }
 ```
 
-Landmarks:
+#### Landmarks:
 
-TODO landmarks visualization
+![body landmark definition](img/body_ldmks.png)
 
 ## SynthFace
 
-![face_data](docs/img/face-data.jpg)
+![face_data](img/face_data.jpg)
 
 ### Download Instructions
 
@@ -99,7 +101,7 @@ python download_data.py --dataset face --output_dir /YOUR_DATA_DIRECTORY/
 
 ### Contents
 
-Image Data:
+#### Image Data
 
 | Data Type | File Name |
 |-|-|
@@ -114,7 +116,7 @@ Image Data:
 |Grayscale headwear segmentation|`segm_headwear_XXXXXXX_XXX.png`|
 |Integer face parts segmentation|`segm_parts_XXXXXXX_XXX.png`|
 
-Segmentation parts indices:
+#### Segmentation parts indices
 
 |Class|Index|
 |-|-|
@@ -132,7 +134,7 @@ Segmentation parts indices:
 |BOTTOM_LIP|11|
 |NECK|12|
 
-Metadata:
+#### Metadata
 
 ```json
 {
@@ -153,13 +155,14 @@ Metadata:
 }
 ```
 
-Landmarks:
+#### Landmarks:
 
-TODO landmarks visualization
+![face landmark definition](img/face_ldmks.png)
+
 
 ## SynthHand
 
-![hand_data](docs/img/hand-data.jpg)
+![hand_data](img/hand_data.jpg)
 
 ### Download Instructions
 
@@ -171,13 +174,13 @@ python download_data.py --dataset hand --output_dir /YOUR_DATA_DIRECTORY/
 
 ### Contents
 
-Image Data:
+#### Image Data
 
 | Data Type | File Name |
 |-|-|
 |RGB image|`img_XXXXXXX_XXX.jpg`|
 
-Metadata:
+#### Metadata
 
 ```json
 {
@@ -191,8 +194,7 @@ Metadata:
     },
     "pose": [ " 52x3 array of SMPL-H pose parameters" ],
     "translation": [ "3 element array for SMPL-H translation" ],
-    "body_identity": [ "300 element array of neutral SMPL-H parameters" ],
-    "hand_identity": [ "10 element array of MANO shape parameters" ],
+    "body_identity": [ "16 element array of neutral SMPL-H shape parameters" ],
     "landmarks": {
         "3D_world": [ "21x3 array of 3D landmarks in world-space - first 15 elements are MANO joints, last 5 are finger tips" ],
         "3D_cam": [ "21x3 array of 3D landmarks in camera-space - first 15 elements are MANO joints, last 5 are finger tips" ],
@@ -201,6 +203,12 @@ Metadata:
 }
 ```
 
-Landmarks:
+#### Landmarks
 
-TODO landmarks visualization
+![hand landmark definition](img/hand_ldmks.png)
+
+#### Notes
+
+Our parametric body model uses 300 component SMPL-H shape basis and also adds the MANO shape basis to the hands.
+The reposed SMPL-H meshes therefore do not exactly match the rendered images, this difference is only significant
+for some hand images.
