@@ -37,9 +37,8 @@ The SynthHand dataset includes the following:
 
 - RGB hand images (left hand only)
 - 2D and 3D skeletal landmarks
-- Segmentation masks
 - SMPL-H pose parameters
-- SMPL-H + MANO shape parameters
+- SMPL-H shape parameters
 - Camera parameters
 
 ## Citation
