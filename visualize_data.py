@@ -371,7 +371,7 @@ def draw_mesh(
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("data-dir", type=Path)
+    parser.add_argument("data_dir", type=Path)
     parser.add_argument("--n-ids", type=int, default=10)
     parser.add_argument("--n-frames", type=int, default=2)
     args = parser.parse_args()
@@ -464,7 +464,10 @@ def main() -> None:
                 vis_imgs.append(pose_vis)
 
             cv2.imshow("vis", np.hstack(vis_imgs))
-            cv2.waitKey(0)
+            k = cv2.waitKey(0)
+            if k in {ord("q"), 27}:
+                cv2.destroyAllWindows()
+                break
 
 
 if __name__ == "__main__":
