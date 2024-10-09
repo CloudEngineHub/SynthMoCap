@@ -41,7 +41,7 @@ MANO_FILENAME = "manoposesv10"
 MOSH_FILENAME = "MoSh"
 POSELIM_FILENAME = "PosePrior"
 
-N_PARTS = 10
+N_PARTS = 20
 
 
 def _download_mpii_file(username: str, password: str, domain: str, file: str, out_path: Path) -> None:
@@ -62,11 +62,10 @@ def _download_mpii_file(username: str, password: str, domain: str, file: str, ou
         )
     except FileNotFoundError as exc:
         raise RuntimeError("wget not found, please install it") from exc
-    except subprocess.CalledProcessError:
-        print("Download failed, check your login details")
+    except subprocess.CalledProcessError as exc:
         if out_path.exists():
             out_path.unlink()
-        sys.exit(1)
+        raise RuntimeError("Download failed, check your login details") from exc
 
 
 def get_mano(out_dir: Path) -> None:

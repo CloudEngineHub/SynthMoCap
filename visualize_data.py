@@ -275,11 +275,10 @@ def _download_smplh() -> None:
         )
     except FileNotFoundError as exc:
         raise RuntimeError("wget not found, please install it") from exc
-    except subprocess.CalledProcessError:
-        print("Download failed, check your login details")
+    except subprocess.CalledProcessError as exc:
         if out_path.exists():
             out_path.unlink()
-        sys.exit(1)
+        raise RuntimeError("Download failed, check your login details") from exc
     with lzma.open(out_path) as fd:
         with TarFile(fileobj=fd) as f:
             f.extractall(out_path.parent)
