@@ -18,7 +18,7 @@ First setup your environment by running `pip install -r requirements.txt`.
 The following command will download the dataset to `YOUR_DATA_DIRECTORY/synth_body/`:
 
 ```bash
-python download_data.py --dataset body --output_dir YOUR_DATA_DIRECTORY/
+python download_data.py --dataset body --output-dir YOUR_DATA_DIRECTORY/
 ```
 
 ### Contents
@@ -96,7 +96,7 @@ python download_data.py --dataset body --output_dir YOUR_DATA_DIRECTORY/
 The following command will download the dataset to `YOUR_DATA_DIRECTORY/synth_face/`:
 
 ```bash
-python download_data.py --dataset face --output_dir /YOUR_DATA_DIRECTORY/
+python download_data.py --dataset face --output-dir /YOUR_DATA_DIRECTORY/
 ```
 
 ### Contents
@@ -169,7 +169,7 @@ python download_data.py --dataset face --output_dir /YOUR_DATA_DIRECTORY/
 The following command will download the dataset to `YOUR_DATA_DIRECTORY/synth_hand/`:
 
 ```bash
-python download_data.py --dataset hand --output_dir /YOUR_DATA_DIRECTORY/
+python download_data.py --dataset hand --output-dir /YOUR_DATA_DIRECTORY/
 ```
 
 ### Contents

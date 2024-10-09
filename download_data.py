@@ -196,7 +196,7 @@ def process_metadata(data_dir: Path, dataset_name: str) -> None:
 def main() -> None:
     """Download and process the dataset."""
     parser = argparse.ArgumentParser(description="Download SynthMoCap datasets")
-    parser.add_argument("--output_dir", type=Path, help="Output directory", required=True)
+    parser.add_argument("--output-dir", type=Path, help="Output directory", required=True)
     parser.add_argument(
         "--dataset",
         type=str,
@@ -208,8 +208,10 @@ def main() -> None:
     dataset_name = f"synth_{args.dataset}"
     data_dir = Path(args.output_dir)
     # download data from MPII sources
-    # get_amass(data_dir)
-    # get_mano(data_dir)
+    if not (data_dir / MOSH_FILENAME).exists() or not (data_dir / POSELIM_FILENAME).exists():
+        get_amass(data_dir)
+    if not (data_dir / MANO_FILENAME).exists():
+        get_mano(data_dir)
     # extract the data
     for path in list(data_dir.glob("*.zip")) + list(data_dir.glob("*.bz2")):
         extract(path)

@@ -371,9 +371,9 @@ def draw_mesh(
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("data_dir", type=Path)
-    parser.add_argument("--n_ids", type=int, default=10)
-    parser.add_argument("--n_frames", type=int, default=2)
+    parser.add_argument("data-dir", type=Path)
+    parser.add_argument("--n-ids", type=int, default=10)
+    parser.add_argument("--n-frames", type=int, default=2)
     args = parser.parse_args()
 
     dataset_type = args.data_dir.stem.split("_")[-1]
