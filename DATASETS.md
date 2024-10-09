@@ -209,6 +209,6 @@ python download_data.py --dataset hand --output_dir /YOUR_DATA_DIRECTORY/
 
 #### Notes
 
-Our parametric body model uses 300 component SMPL-H shape basis and also adds the MANO shape basis to the hands.
-The reposed SMPL-H meshes therefore do not exactly match the rendered images, this difference is only significant
-for some hand images.
+Our parametric body model uses a 300 component SMPL-H shape basis and adds the MANO shape basis to the hands, as well as
+incorporating displacement maps. The reposed SMPL-H meshes therefore do not exactly match the rendered images, this
+difference is only significant for some hand images.
