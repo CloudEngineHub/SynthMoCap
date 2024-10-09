@@ -2,9 +2,13 @@
 
 In all datasets samples are indexed by identity and frame - there are approximately 20,000 identities in each dataset
 with 5 frames each. Indices are formatted with leading zeros, for example `img_0000123_004.jpg` for identity 123, frame 4.
-Note that some pose data is sourced from the [AMASS](https://amass.is.tue.mpg.de/) and [MANO](https://mano.is.tue.mpg.de/)
+
+Some pose data is sourced from the [AMASS](https://amass.is.tue.mpg.de/) and [MANO](https://mano.is.tue.mpg.de/)
 datasets and is not directly redistributed by us. This data will be downloaded and spliced into the full dataset as part
-of the `download_data.py` script. You can use `python visualize_data.py [path_to_dataset]` to visualize the data
+of the `download_data.py` script. You therefore need valid logins to https://amass.is.tue.mpg.de/ and
+https://mano.is.tue.mpg.de/ which you will be prompted for when running the script.
+
+Once downloaded, you can use `python visualize_data.py [path_to_dataset]` to visualize the data
 including some ground-truth annotations.
 
 First setup your environment by running `pip install -r requirements.txt` using python 3.10.
