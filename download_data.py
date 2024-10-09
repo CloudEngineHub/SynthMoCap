@@ -210,20 +210,21 @@ def main() -> None:
     args = parser.parse_args()
     dataset_name = f"synth_{args.dataset}"
     data_dir = Path(args.output_dir)
-    # download data from MPII sources
-    if not (data_dir / MOSH_FILENAME).exists() or not (data_dir / POSELIM_FILENAME).exists():
-        get_amass(data_dir)
-    if not (data_dir / MANO_FILENAME).exists():
-        get_mano(data_dir)
-    # extract the data
-    for path in list(data_dir.glob("*.zip")) + list(data_dir.glob("*.bz2")):
-        extract(path)
-        path.unlink()
-    # download the SynthEgo dataset
+    if args.dataset != "face":
+        # download data from MPII sources
+        if not (data_dir / MOSH_FILENAME).exists() or not (data_dir / POSELIM_FILENAME).exists():
+            get_amass(data_dir)
+        if not (data_dir / MANO_FILENAME).exists():
+            get_mano(data_dir)
+        # extract the data
+        for path in list(data_dir.glob("*.zip")) + list(data_dir.glob("*.bz2")):
+            extract(path)
+            path.unlink()
+    # download the SynthMoCap dataset
     zip_dir = data_dir / f"{dataset_name}_zip"
     download_synthmocap_data(data_dir, dataset_name, zip_dir, args.sample)
     zip_dir.rmdir()
-    if args.dataset in ["body", "hand"]:
+    if args.dataset != "face":
         # process the metadata
         process_metadata(data_dir, dataset_name)
 
