@@ -7,7 +7,7 @@ datasets and is not directly redistributed by us. This data will be downloaded a
 of the `download_data.py` script. You can use `python visualize_data.py [path_to_dataset]` to visualize the data
 including some ground-truth annotations.
 
-First setup your environment by running `pip install -r requirements.txt`.
+First setup your environment by running `pip install -r requirements.txt` using python 3.10.
 
 ## SynthBody
 
@@ -20,6 +20,9 @@ The following command will download the dataset to `YOUR_DATA_DIRECTORY/synth_bo
 ```bash
 python download_data.py --dataset body --output-dir YOUR_DATA_DIRECTORY/
 ```
+
+If you want just a small subset of the data you can add the `--sample` flag.
+The total size of the dataset is approximately TODOGB.
 
 ### Contents
 
@@ -99,6 +102,9 @@ The following command will download the dataset to `YOUR_DATA_DIRECTORY/synth_fa
 python download_data.py --dataset face --output-dir /YOUR_DATA_DIRECTORY/
 ```
 
+If you want just a small subset of the data you can add the `--sample` flag.
+The total size of the dataset is approximately TODOGB.
+
 ### Contents
 
 #### Image Data
@@ -171,6 +177,9 @@ The following command will download the dataset to `YOUR_DATA_DIRECTORY/synth_ha
 ```bash
 python download_data.py --dataset hand --output-dir /YOUR_DATA_DIRECTORY/
 ```
+
+If you want just a small subset of the data you can add the `--sample` flag.
+The total size of the dataset is approximately TODOGB.
 
 ### Contents
 

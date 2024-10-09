@@ -72,8 +72,8 @@ def _download_mpii_file(username: str, password: str, domain: str, file: str, ou
 def get_mano(out_dir: Path) -> None:
     """Download MANO data."""
     print("Downloading MANO...")
-    username = input("Username: ")
-    password = getpass("Password: ")
+    username = input("Username for https://mano.is.tue.mpg.de/: ")
+    password = getpass("Password for https://mano.is.tue.mpg.de/: ")
     _download_mpii_file(
         username,
         password,
@@ -86,8 +86,8 @@ def get_mano(out_dir: Path) -> None:
 def get_amass(out_dir: Path) -> None:
     """Download AMASS data."""
     print("Downloading AMASS...")
-    username = input("Username: ")
-    password = getpass("Password: ")
+    username = input("Username for https://amass.is.tue.mpg.de/: ")
+    password = getpass("Password for https://amass.is.tue.mpg.de/: ")
     _download_mpii_file(
         username,
         password,
@@ -119,11 +119,12 @@ def extract(data_path: Path, out_path: Optional[Path] = None) -> None:
         raise ValueError(f"Unknown file type {data_path.suffix}")
 
 
-def download_synthmocap_data(dataset: str, out_dir: Path) -> None:
+def download_synthmocap_data(data_dir: Path, dataset: str, zip_dir: Path, sample: bool) -> None:
     """Download one of the SynthMoCap datasets."""
-    out_dir.mkdir(exist_ok=True, parents=True)
-    for part in range(1, N_PARTS + 1):
-        out_path = out_dir / f"{dataset}_{part:02d}.zip"
+    data_dir.mkdir(exist_ok=True, parents=True)
+    zip_dir.mkdir(exist_ok=True, parents=True)
+    for part in range(1, 2 if sample else N_PARTS + 1):
+        out_path = zip_dir / f"{dataset}_{part:02d}.zip"
         print(f"Downloading {dataset} part {part}...")
         url = f"https://facesyntheticspubwedata.blob.core.windows.net/sga-2024-synthmocap/{dataset}_{part:02d}.zip"
         try:
@@ -144,7 +145,8 @@ def download_synthmocap_data(dataset: str, out_dir: Path) -> None:
             if out_path.exists():
                 out_path.unlink()
             sys.exit(1)
-
+        extract(out_path, data_dir / dataset)
+        out_path.unlink()
 
 def process_metadata(data_dir: Path, dataset_name: str) -> None:
     """Process the metadata to include the correct pose data."""
@@ -204,6 +206,7 @@ def main() -> None:
         choices=["face", "body", "hand"],
         required=True,
     )
+    parser.add_argument("--sample", action="store_true", help="Only download a small sample of the data")
     args = parser.parse_args()
     dataset_name = f"synth_{args.dataset}"
     data_dir = Path(args.output_dir)
@@ -218,11 +221,7 @@ def main() -> None:
         path.unlink()
     # download the SynthEgo dataset
     zip_dir = data_dir / f"{dataset_name}_zip"
-    download_synthmocap_data(dataset_name, zip_dir)
-    # extract the SynthEgo dataset
-    for path in list(zip_dir.glob("*.zip")):
-        extract(path, data_dir / dataset_name)
-        path.unlink()
+    download_synthmocap_data(data_dir, dataset_name, zip_dir, args.sample)
     zip_dir.rmdir()
     if args.dataset in ["body", "hand"]:
         # process the metadata

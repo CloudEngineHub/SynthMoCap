@@ -255,8 +255,8 @@ def draw_landmarks(
 
 def _download_smplh() -> None:
     print("Downloading SMPL-H...")
-    username = input("Username: ")
-    password = getpass("Password: ")
+    username = input("Username for https://mano.is.tue.mpg.de/: ")
+    password = getpass("Password for https://mano.is.tue.mpg.de/: ")
     out_path = Path(__file__).parent / "smplh" / "smplh.tar.xz"
     out_path.parent.mkdir(exist_ok=True, parents=True)
     url = "https://download.is.tue.mpg.de/download.php?domain=mano&resume=1&sfile=smplh.tar.xz"

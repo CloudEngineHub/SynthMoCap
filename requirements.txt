@@ -1,7 +1,7 @@
-matplotlib
-numpy
-opencv-python
-pyrender
-tqdm
-transformations
-trimesh
+matplotlib==3.7.1
+numpy==1.26.4
+opencv-python==4.10.0.84
+pyrender==0.1.45
+tqdm==4.65.0
+transformations==2022.9.26
+trimesh==3.22.1
