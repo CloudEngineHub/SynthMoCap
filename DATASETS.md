@@ -11,7 +11,9 @@ https://mano.is.tue.mpg.de/ which you will be prompted for when running the scri
 Once downloaded, you can use `python visualize_data.py [path_to_dataset]` to visualize the data
 including some ground-truth annotations.
 
-First setup your environment by running `pip install -r requirements.txt` using python 3.10.
+First setup your environment by running `pip install -r requirements.txt` using python 3.10 and installing
+`wget` on your system if it isn't already. Our server requires TLSv1.2 which some old versions of wget do not support.
+We have successfully tested 1.21.4 of this [this build](https://eternallybored.org/misc/wget/) on windows.
 
 ## SynthBody
 

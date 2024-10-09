@@ -135,6 +135,7 @@ def download_synthmocap_data(data_dir: Path, dataset: str, zip_dir: Path, sample
                     str(out_path),
                     "--no-check-certificate",
                     "--continue",
+                    "--secure-protocol=TLSv1_2",
                 ]
             )
         except FileNotFoundError as exc:
