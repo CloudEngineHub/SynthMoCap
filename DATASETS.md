@@ -83,7 +83,7 @@ python download_data.py --dataset body --output-dir YOUR_DATA_DIRECTORY/
 }
 ```
 
-#### Landmarks:
+#### Landmarks
 
 ![body landmark definition](img/body_ldmks.png)
 
@@ -155,7 +155,7 @@ python download_data.py --dataset face --output-dir /YOUR_DATA_DIRECTORY/
 }
 ```
 
-#### Landmarks:
+#### Landmarks
 
 ![face landmark definition](img/face_ldmks.png)
 
