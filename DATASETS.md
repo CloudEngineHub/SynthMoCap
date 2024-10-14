@@ -96,6 +96,15 @@ The total size of the dataset is approximately TODOGB.
 
 ![body landmark definition](img/body_ldmks.png)
 
+#### Notes
+
+The dataset includes some images with secondary "distractor" people in the background, the ground-truth data does
+not include annotations for these people, only the primary person. These images help with robustness to occlusions and
+cases where people are close together in real-world scenarios.
+
+As detailed in the paper, clothing is modeled using displacement maps. Segmentation ground-truth includes the effect
+of these displacements, but landmarks are not displaced and instead lie directly on the surface of the body mesh.
+
 ## SynthFace
 
 ![face_data](img/face_data.jpg)
@@ -171,6 +180,11 @@ The total size of the dataset is approximately TODOGB.
 
 ![face landmark definition](img/face_ldmks.png)
 
+#### Notes
+
+The dataset includes some images with secondary "distractor" faces in the background, the ground-truth data does
+not include annotations for these faces, only the primary face. These images help with robustness to occlusions and
+cases where faces are close together in real-world scenarios.
 
 ## SynthHand
 
@@ -225,5 +239,5 @@ The total size of the dataset is approximately TODOGB.
 #### Notes
 
 Our parametric body model uses a 300 component SMPL-H shape basis and adds the MANO shape basis to the hands, as well as
-incorporating displacement maps. The reposed SMPL-H meshes therefore do not exactly match the rendered images, this
+incorporating skin displacement maps. The reposed SMPL-H meshes therefore do not exactly match the rendered images, this
 difference is only significant for some hand images.
