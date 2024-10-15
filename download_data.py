@@ -118,14 +118,19 @@ def extract(data_path: Path, out_path: Optional[Path] = None) -> None:
         raise ValueError(f"Unknown file type {data_path.suffix}")
 
 
-def download_synthmocap_data(data_dir: Path, dataset: str, zip_dir: Path, sample: bool) -> None:
+def download_synthmocap_data(data_dir: Path, dataset: str, zip_dir: Path, single_id: bool, single_chunck: bool) -> None:
     """Download one of the SynthMoCap datasets."""
     data_dir.mkdir(exist_ok=True, parents=True)
     zip_dir.mkdir(exist_ok=True, parents=True)
-    for part in range(1, 2 if sample else N_PARTS + 1):
-        out_path = zip_dir / f"{dataset}_{part:02d}.zip"
-        print(f"Downloading {dataset} part {part}...")
-        url = f"https://facesyntheticspubwedata.blob.core.windows.net/sga-2024-synthmocap/{dataset}_{part:02d}.zip"
+    parts = (
+        [f"{dataset}_sample.zip"]
+        if single_id
+        else [f"{dataset}_{i:02d}.zip" for i in range(1, 2 if single_chunck else N_PARTS + 1)]
+    )
+    for part in parts:
+        out_path = zip_dir / part
+        print(f"Downloading {part}...")
+        url = f"https://facesyntheticspubwedata.blob.core.windows.net/sga-2024-synthmocap/{part}"
         try:
             subprocess.check_call(
                 [
@@ -147,6 +152,7 @@ def download_synthmocap_data(data_dir: Path, dataset: str, zip_dir: Path, sample
             sys.exit(1)
         extract(out_path, data_dir / dataset)
         out_path.unlink()
+
 
 def process_metadata(data_dir: Path, dataset_name: str) -> None:
     """Process the metadata to include the correct pose data."""
@@ -206,8 +212,18 @@ def main() -> None:
         choices=["face", "body", "hand"],
         required=True,
     )
-    parser.add_argument("--sample", action="store_true", help="Only download a small sample of the data")
+    parser.add_argument(
+        "--single-id",
+        action="store_true",
+        help="Only download one subject from the dataset",
+    )
+    parser.add_argument(
+        "--single-chunk",
+        action="store_true",
+        help="Only download one chunk from the dataset",
+    )
     args = parser.parse_args()
+    assert not (args.single_id and args.single_chunk), "Cannot specify both single-id and single-chunk"
     dataset_name = f"synth_{args.dataset}"
     data_dir = Path(args.output_dir)
     if args.dataset != "face":
@@ -222,7 +238,7 @@ def main() -> None:
             path.unlink()
     # download the SynthMoCap dataset
     zip_dir = data_dir / f"{dataset_name}_zip"
-    download_synthmocap_data(data_dir, dataset_name, zip_dir, args.sample)
+    download_synthmocap_data(data_dir, dataset_name, zip_dir, args.single_id, args.single_chunk)
     zip_dir.rmdir()
     if args.dataset != "face":
         # process the metadata

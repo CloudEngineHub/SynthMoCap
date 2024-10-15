@@ -27,8 +27,8 @@ The following command will download the dataset to `YOUR_DATA_DIRECTORY/synth_bo
 python download_data.py --dataset body --output-dir YOUR_DATA_DIRECTORY/
 ```
 
-If you want just a small subset of the data you can add the `--sample` flag.
-The total size of the dataset is approximately TODOGB.
+If you want just a single identity (500KB) you can add the `--single_id` flag, or for a single chunk (380MB) add `--single_chunk`.
+The total size of the dataset is approximately 8GB.
 
 ### Contents
 
@@ -117,8 +117,8 @@ The following command will download the dataset to `YOUR_DATA_DIRECTORY/synth_fa
 python download_data.py --dataset face --output-dir /YOUR_DATA_DIRECTORY/
 ```
 
-If you want just a small subset of the data you can add the `--sample` flag.
-The total size of the dataset is approximately TODOGB.
+If you want just a single identity (500KB) you can add the `--single_id` flag, or for a single chunk (500MB) add `--single_chunk`.
+The total size of the dataset is approximately 10GB.
 
 ### Contents
 
@@ -198,8 +198,8 @@ The following command will download the dataset to `YOUR_DATA_DIRECTORY/synth_ha
 python download_data.py --dataset hand --output-dir /YOUR_DATA_DIRECTORY/
 ```
 
-If you want just a small subset of the data you can add the `--sample` flag.
-The total size of the dataset is approximately TODOGB.
+If you want just a single identity (250KB) you can add the `--single_id` flag, or for a single chunk (300MB) add `--single_chunk`.
+The total size of the dataset is approximately 6GB.
 
 ### Contents
 
