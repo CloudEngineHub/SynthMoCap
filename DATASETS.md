@@ -28,7 +28,7 @@ python download_data.py --dataset body --output-dir YOUR_DATA_DIRECTORY/
 ```
 
 If you want just a single identity (500KB) you can add the `--single_id` flag, or for a single chunk (380MB) add `--single_chunk`.
-The total size of the dataset is approximately 8GB.
+The total size of the dataset is approximately 10GB.
 
 ### Contents
 
@@ -118,7 +118,7 @@ python download_data.py --dataset face --output-dir /YOUR_DATA_DIRECTORY/
 ```
 
 If you want just a single identity (500KB) you can add the `--single_id` flag, or for a single chunk (500MB) add `--single_chunk`.
-The total size of the dataset is approximately 10GB.
+The total size of the dataset is approximately 11GB.
 
 ### Contents
 
@@ -199,7 +199,7 @@ python download_data.py --dataset hand --output-dir /YOUR_DATA_DIRECTORY/
 ```
 
 If you want just a single identity (250KB) you can add the `--single_id` flag, or for a single chunk (300MB) add `--single_chunk`.
-The total size of the dataset is approximately 6GB.
+The total size of the dataset is approximately 7GB.
 
 ### Contents
 
