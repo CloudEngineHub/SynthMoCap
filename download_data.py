@@ -20,14 +20,15 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 """
 
 import argparse
+import json
 import subprocess
 import sys
-import json
-from typing import Optional
-from pathlib import Path
-from getpass import getpass
-from zipfile import ZipFile
 import tarfile
+from getpass import getpass
+from multiprocessing import Pool
+from pathlib import Path
+from typing import Optional
+from zipfile import ZipFile
 
 import numpy as np
 from tqdm import tqdm
@@ -40,6 +41,9 @@ RIGHT_HAND = SMPL_H_N_J + MANO_N_J
 MANO_FILENAME = "manoposesv10"
 MOSH_FILENAME = "MoSh"
 POSELIM_FILENAME = "PosePrior"
+
+MANO_LEFT_DATA = None
+MANO_RIGHT_DATA = None
 
 N_PARTS = 20
 
@@ -118,6 +122,63 @@ def extract(data_path: Path, out_path: Optional[Path] = None) -> None:
         raise ValueError(f"Unknown file type {data_path.suffix}")
 
 
+def _mano_data(data_dir: Path) -> tuple[np.ndarray, np.ndarray]:
+    """Load the MANO data."""
+    global MANO_LEFT_DATA, MANO_RIGHT_DATA
+    if MANO_LEFT_DATA is None:
+        MANO_LEFT_DATA = np.load(
+            data_dir / f"{MANO_FILENAME}/mano_poses_v1_0/handsOnly_REGISTRATIONS_r_lm___POSES___L.npy"
+        )
+    if MANO_RIGHT_DATA is None:
+        MANO_RIGHT_DATA = np.load(
+            data_dir / f"{MANO_FILENAME}/mano_poses_v1_0/handsOnly_REGISTRATIONS_r_lm___POSES___R.npy"
+        )
+    return MANO_LEFT_DATA, MANO_RIGHT_DATA
+
+
+def _process_meta(args: tuple[Path, Path]) -> None:
+    metadata_fn, data_dir = args
+    mano_left, mano_right = _mano_data(data_dir)
+    with open(metadata_fn, "r") as f:
+        metadata = json.load(f)
+        if isinstance(metadata["pose"][1], str):
+            # body pose comes from AMASS
+            seq_name: str = metadata["pose"][1]
+            frame = int(seq_name.split("_")[-2])
+            assert int(seq_name.split("_")[-1]) == 0
+            seq_path = Path("/".join(seq_name.split("/")[1:])).with_suffix(".npz").as_posix()
+            if seq_name.startswith("MoSh_MPI_MoSh"):
+                # fix paths to match downloaded data
+                seq_path = seq_path.replace("Data/moshpp_fits_SMPL", "MPI_mosh")
+                seq_path = seq_path.replace(".npz", "_poses.npz")
+                if not (data_dir / MOSH_FILENAME / seq_path).exists():
+                    # there is a sequence incorrectly named with _poses_poses
+                    seq_path = seq_path.replace(".npz", "_poses.npz")
+                seq_data = np.load(data_dir / MOSH_FILENAME / seq_path)
+            elif seq_name.startswith("MoSh_MPI_PoseLimits"):
+                # fix paths to match downloaded data
+                seq_path = seq_path.replace("Data/moshpp_fits_SMPL", "MPI_Limits")
+                seq_path = seq_path.replace(".npz", "_poses.npz")
+                seq_data = np.load(data_dir / POSELIM_FILENAME / seq_path)
+            else:
+                raise RuntimeError(f"Unknown sequence name {seq_name}")
+            # we resampled to ~30 fps so have to adjust the frame number
+            frame_step = int(np.floor(seq_data["mocap_framerate"] / 30))
+            seq = seq_data["poses"][::frame_step]
+            # exclude root joint
+            metadata["pose"][1:SMPL_H_N_J] = seq[frame].reshape((-1, 3))[1:SMPL_H_N_J].tolist()
+        if isinstance(metadata["pose"][LEFT_HAND], str):
+            # left hand comes from MANO
+            idx = int(metadata["pose"][LEFT_HAND].split("_")[1])
+            metadata["pose"][LEFT_HAND:RIGHT_HAND] = mano_left[idx].reshape((MANO_N_J, 3)).tolist()
+        if isinstance(metadata["pose"][RIGHT_HAND], str):
+            # right hand comes from MANO
+            idx = int(metadata["pose"][RIGHT_HAND].split("_")[1])
+            metadata["pose"][RIGHT_HAND:] = mano_right[idx].reshape((MANO_N_J, 3)).tolist()
+    with open(metadata_fn, "w") as f:
+        json.dump(metadata, f, indent=4)
+
+
 def download_synthmocap_data(data_dir: Path, dataset: str, zip_dir: Path, single_id: bool, single_chunck: bool) -> None:
     """Download one of the SynthMoCap datasets."""
     data_dir.mkdir(exist_ok=True, parents=True)
@@ -156,49 +217,18 @@ def download_synthmocap_data(data_dir: Path, dataset: str, zip_dir: Path, single
 
 def process_metadata(data_dir: Path, dataset_name: str) -> None:
     """Process the metadata to include the correct pose data."""
-    # load MANO dataset
-    mano_left = np.load(data_dir / f"{MANO_FILENAME}/mano_poses_v1_0/handsOnly_REGISTRATIONS_r_lm___POSES___L.npy")
-    mano_right = np.load(data_dir / f"{MANO_FILENAME}/mano_poses_v1_0/handsOnly_REGISTRATIONS_r_lm___POSES___R.npy")
-    # fill in the data
-    for metadata_fn in tqdm(list((data_dir / dataset_name).glob("*.json")), desc="Processing metadata"):
-        with open(metadata_fn, "r") as f:
-            metadata = json.load(f)
-            if isinstance(metadata["pose"][1], str):
-                # body pose comes from AMASS
-                seq_name: str = metadata["pose"][1]
-                frame = int(seq_name.split("_")[-2])
-                assert int(seq_name.split("_")[-1]) == 0
-                seq_path = Path("/".join(seq_name.split("/")[1:])).with_suffix(".npz").as_posix()
-                if seq_name.startswith("MoSh_MPI_MoSh"):
-                    # fix paths to match downloaded data
-                    seq_path = seq_path.replace("Data/moshpp_fits_SMPL", "MPI_mosh")
-                    seq_path = seq_path.replace(".npz", "_poses.npz")
-                    if not (data_dir / MOSH_FILENAME / seq_path).exists():
-                        # there is a sequence incorrectly named with _poses_poses
-                        seq_path = seq_path.replace(".npz", "_poses.npz")
-                    seq_data = np.load(data_dir / MOSH_FILENAME / seq_path)
-                elif seq_name.startswith("MoSh_MPI_PoseLimits"):
-                    # fix paths to match downloaded data
-                    seq_path = seq_path.replace("Data/moshpp_fits_SMPL", "MPI_Limits")
-                    seq_path = seq_path.replace(".npz", "_poses.npz")
-                    seq_data = np.load(data_dir / POSELIM_FILENAME / seq_path)
-                else:
-                    raise RuntimeError(f"Unknown sequence name {seq_name}")
-                # we resampled to ~30 fps so have to adjust the frame number
-                frame_step = int(np.floor(seq_data["mocap_framerate"] / 30))
-                seq = seq_data["poses"][::frame_step]
-                # exclude root joint
-                metadata["pose"][1:SMPL_H_N_J] = seq[frame].reshape((-1, 3))[1:SMPL_H_N_J].tolist()
-            if isinstance(metadata["pose"][LEFT_HAND], str):
-                # left hand comes from MANO
-                idx = int(metadata["pose"][LEFT_HAND].split("_")[1])
-                metadata["pose"][LEFT_HAND:RIGHT_HAND] = mano_left[idx].reshape((MANO_N_J, 3)).tolist()
-            if isinstance(metadata["pose"][RIGHT_HAND], str):
-                # right hand comes from MANO
-                idx = int(metadata["pose"][RIGHT_HAND].split("_")[1])
-                metadata["pose"][RIGHT_HAND:] = mano_right[idx].reshape((MANO_N_J, 3)).tolist()
-        with open(metadata_fn, "w") as f:
-            json.dump(metadata, f, indent=4)
+    metadata_files = list((data_dir / dataset_name).glob("*.json"))
+    with Pool() as p:
+        list(
+            tqdm(
+                p.imap(
+                    _process_meta,
+                    [(metadata_fn, data_dir) for metadata_fn in metadata_files],
+                ),
+                total=len(metadata_files),
+                desc="Processing metadata",
+            )
+        )
 
 
 def main() -> None:

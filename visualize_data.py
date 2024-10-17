@@ -21,16 +21,15 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 
 import argparse
 import json
-from pathlib import Path
-import sys
+import lzma
 import subprocess
 from getpass import getpass
-import lzma
+from pathlib import Path
 from tarfile import TarFile
 
 import cv2
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 import pyrender
 import trimesh
 from transformations import rotation_matrix
