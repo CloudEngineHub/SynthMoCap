@@ -191,7 +191,7 @@ def download_synthmocap_data(data_dir: Path, dataset: str, zip_dir: Path, single
     for part in parts:
         out_path = zip_dir / part
         print(f"Downloading {part}...")
-        url = f"https://facesyntheticspubwedata.blob.core.windows.net/sga-2024-synthmocap/{part}"
+        url = f"https://facesyntheticspubwedata.z6.web.core.windows.net/sga-2024-synthmocap/{part}"
         try:
             subprocess.check_call(
                 [
