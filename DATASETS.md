@@ -1,5 +1,7 @@
 # SynthMoCap Datasets
 
+The following datasets are released for **non-commercial** use, refer to [LICENSE](LICENSE) for more details.
+
 In all datasets samples are indexed by identity and frame - there are approximately 20,000 identities in each dataset
 with 5 frames each. Indices are formatted with leading zeros, for example `img_0000123_004.jpg` for identity 123, frame 4.
 
