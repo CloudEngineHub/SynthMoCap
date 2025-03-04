@@ -50,7 +50,7 @@ If you use any of the datasets in your research, please cite the following [pape
   title={Look Ma, no markers: holistic performance capture without the hassle},
   author={Hewitt, Charlie and Saleh, Fatemeh and Aliakbarian, Sadegh and Petikam, Lohit and Rezaeifar, Shideh and Florentin, Louis and Hosenie, Zafiirah and Cashman, Thomas J and Valentin, Julien and Cosker, Darren and Baltru\v{s}aitis, Tadas},
   journal={ACM Transactions on Graphics (TOG)},
-  volume={36},
+  volume={43},
   number={6},
   year={2024},
   publisher={ACM New York, NY, USA},
